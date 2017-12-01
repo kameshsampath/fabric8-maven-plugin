@@ -107,3 +107,59 @@
   enricher:
     excludes:
       - f8-expose
+
+# tag::servicemesh[]
+# Service Mesh profile, this is extension of default profile with extra enrichers for service mesh
+- name: servicemesh
+  enricher:
+    # The order given in "includes" is the order in which enrichers are called
+    includes:
+    - fmp-name
+    - fmp-controller
+    - fmp-service
+    - fmp-image
+    - fmp-portname
+    - fmp-ianaservice
+    - fmp-project
+    - fmp-dependency
+    - fmp-pod-annotations
+    - fmp-git
+    # TODO: Documents and verify enrichers below
+    - fmp-debug
+    - fmp-merge
+    - fmp-remove-build-annotations
+    - fmp-volume-permission
+    - fmp-istio-kubeinject
+    # -----------------------------------------
+    - f8-cd
+    - f8-cd-doc-link
+    - f8-cd-grafana-link
+    # TODO: Document and verify enrichers below
+    - f8-expose
+    # Health checks
+    - fmp-openshift-route
+    - spring-boot-health-check
+    - wildfly-swarm-health-check
+    - karaf-health-check
+    - vertx-health-check
+    - docker-health-check
+    - f8-prometheus
+    # Dependencies shouldn't be enriched anymore, therefor it's last in the list
+    - fmp-dependency
+    - f8-watch
+    - fmp-revision-history
+    - fmp-docker-registry-secret
+
+  generator:
+    # The order given in "includes" is the order in which generators are called
+    includes:
+    - spring-boot
+    - wildfly-swarm
+    - karaf
+    - vertx
+    - java-exec
+    - webapp
+  watcher:
+    includes:
+    - spring-boot
+    - docker-image
